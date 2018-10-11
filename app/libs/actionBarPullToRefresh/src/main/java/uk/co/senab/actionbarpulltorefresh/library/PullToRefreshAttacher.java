@@ -756,10 +756,17 @@ public class PullToRefreshAttacher implements View.OnTouchListener {
             super(context);
 
             // Move all children from decor view to here
-            for (int i = 0, z = systemDecorView.getChildCount(); i < z; i++) {
+            int systemDecorViewChildCnt = systemDecorView.getChildCount();
+            for (int i = 0; i < systemDecorViewChildCnt; i++) {
                 View child = systemDecorView.getChildAt(i);
-                systemDecorView.removeView(child);
-                addView(child);
+
+                if (child != null) {
+                    systemDecorView.removeView(child);
+                    addView(child);
+                }
+
+                // cnt has to be updated because statements above may modify it
+                systemDecorViewChildCnt = systemDecorView.getChildCount();
             }
 
             /**
